@@ -50,7 +50,15 @@ class XMPPController: NSObject {
         try! self.xmppStream.connect(withTimeout: XMPPStreamTimeoutNone)
         print(self.xmppStream.isConnected)
     }
-
+    
+    func sendMessage() {
+        let message = "Yo!"
+        let senderJID = XMPPJID(string: "user2@localhost")
+        let msg = XMPPMessage(type: "chat", to: senderJID)
+        
+        msg.addBody(message)
+        xmppStream.send(msg)
+    }
 }
 
 extension XMPPController: XMPPStreamDelegate {
@@ -59,10 +67,24 @@ extension XMPPController: XMPPStreamDelegate {
         print("Stream: Connected")
         try! stream.authenticate(withPassword: self.password)
     }
+    
+    func xmppStream(_ sender: XMPPStream, didReceiveError error: DDXMLElement) {
+        print(error)
+    }
+    
+    func xmppStream(_ sender: XMPPStream, didReceive message: XMPPMessage) {
+        print(message)
+    }
+    
+    func xmppStream(_ sender: XMPPStream, didReceive presence: XMPPPresence) {
+        print(presence)
+    }
+    
 
     func xmppStreamDidAuthenticate(_ sender: XMPPStream) {
         self.xmppStream.send(XMPPPresence())
         print("Stream: Authenticated")
+        sendMessage()
     }
 }
 

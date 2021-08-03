@@ -10,11 +10,11 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var xmppController: XMPPController!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let xmppController = try! XMPPController(hostName: "chatterboxtown.us", userJIDString: "ningmengjean@chatterboxtown.us", hostPort: 5222, password: "821721zxj")
+        xmppController = try! XMPPController(hostName: "localhost", userJIDString: "user1@localhost", hostPort: 5222, password: "pass")
         xmppController.connect()
         return true
     }
